@@ -28,6 +28,7 @@ library(dtplyr)
 library(dplyr)
 library(stringr)
 library(knitr)
+library(plotly)
 
 # Initialize code chunk options
 opts_chunk$set(
