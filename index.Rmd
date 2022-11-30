@@ -92,20 +92,14 @@ The research question being explored in this research project is if adolescents 
 
 
 
-
-
-
-
-# Code for the Graphs
-
-```{r read-data, cache=TRUE}
+```{r read-data, echo=FALSE, cache=TRUE}
 if (!file.exists("contraceptive_use.csv")) {
 download.file("https://data.chhs.ca.gov/dataset/c2698502-d276-4e55-9057-8153e39d21b1/resource/12a73f54-dcf4-4e38-843c-e988385be69b/download/ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv", "contraceptive_use.csv", method="libcurl", timeout = 60) 
 }
 contra <- data.table::fread("contraceptive_use.csv") 
 ```
 
-```{r data prep}
+```{r data prep, echo=FALSE}
 #remove the '%' symbol in the dataset
 contra$`Rate of Contraceptive Use` <- stringr::str_remove_all(contra$`Rate of Contraceptive Use`, "%")
 
