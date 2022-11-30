@@ -74,7 +74,8 @@ opts_chunk$set(
 
 
 
-The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from eligible women ages 15-44 who are at risk for unintended pregnancy. It reported the rates of women's contraceptive use broken down by year (2014-2016), age group (15-20 vs. 21-44), and race. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), such as birth control implants or IUDs, or most/moderately effective methods of contraceptions (M/M), which include oral birth control pills, patches, rings, injectables, female sterilization, or diaphragms. 
+The dataset was taken from the California Health and Human Services Agency webiste: https://data.chhs.ca.gov/dataset/contraceptive-care-for-women-use-by-race-ethnicity-contraceptive-type-and-age-group/resource/12a73f54-dcf4-4e38-843c-e988385be69b.
+The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from eligible women ages 15-44 who are at risk for unintended pregnancy. It reported the rates of women's contraceptive use broken down by year (2014-2016), age group (15-20 vs. 21-44), and race. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), such as birth control implants and IUDs, or most/moderately effective methods of contraceptions (M/M), which include oral birth control pills, patches, rings, injectables, female sterilization, and diaphragms. 
  
  
  
