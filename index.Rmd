@@ -21,7 +21,7 @@ output:
 
 
 
-This is my PM566 Final Project website. Link to the report pdf will go here:
+ Link to the pdf report here:
 
 
 
@@ -34,7 +34,7 @@ This is my PM566 Final Project website. Link to the report pdf will go here:
 
 
 
-# Introduction to the Project
+# Background on the Data and Study Sample
 
 ```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
 
@@ -76,10 +76,22 @@ opts_chunk$set(
 
 The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from eligible women ages 15-44 who are at risk for unintended pregnancy. It reported the rates of women's contraceptive use broken down by year (2014-2016), age group (15-20 vs. 21-44), and race. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), such as birth control implants or IUDs, or most/moderately effective methods of contraceptions (M/M), which include oral birth control pills, patches, rings, injectables, female sterilization, or diaphragms. 
  
+ 
+ 
+ 
+ 
+ <br>
+ 
+ 
+ 
+ 
+ 
+ 
+#Introduction to Project
+
 LARC contraceptives are more effective forms of birth control than M/M methods and are safe for women of all ages to use. LARC methods could prevent more cases of teenage pregnancy for young women at risk and who are sexually active. However, M/M methods are more widely used and may be perceived by the public to be safer since they don't require surgical insertions of long-term devices into the body. Young women with inadequate knowledge about sex education and reproductive health may not have received enough information about the different available contraceptive methods and as a result, be unable to make an informed decision on the contraceptive type that's right for them.
 
-The research question being explored in this research project is if adolescents (ages 15-20) use long-acting reversible methods of contraception (LARC) at a lower rate than older women (ages 21-44) and is that trend consistent throughout the three year period?
-
+The primary research question being explored in this project is if adolescents (ages 15-20) use long-acting reversible methods of contraception (LARC) at a lower rate than older women (ages 21-44) and is that trend consistent throughout the three year period?
 
 
 
