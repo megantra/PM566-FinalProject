@@ -1,7 +1,7 @@
 name: "megantran-website"
 output_dir: "."
 navbar:
-  title: "PM 566 Homework 5"
+  title: "PM566 Homework 5"
   left:
     - text: "Home"
       href: index.html
