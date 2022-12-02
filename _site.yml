@@ -1,15 +1,15 @@
 name: "megantran-website"
 output_dir: "."
 navbar:
-  title: "PM566 Final Project"
+  title: "PM 566 Homework 5"
   left:
     - text: "Home"
       href: index.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/USCbiostats/PM566
-    - text: "PM566 Website Home"
-      href: https://uscbiostats.github.io/PM566/
+    - text: "PM566-Final Project Github"
+      href: https://github.com/megantra/PM566-FinalProject
 output:
   html_document:
     theme: cosmo

@@ -1,5 +1,5 @@
 ---
-title: "PM566 Final Project - Use of Contraception for Women at Risk for Unintended Pregnancy "
+title: "PM566 Homework 5"
 author: "Megan Tran"
 output: 
     html_document:
@@ -160,14 +160,6 @@ p2_box <- contra %>%
 ggplotly_p2box <- ggplotly(p2_box)
 ```
 
-```{r plot3, echo=FALSE, class.source="code-r-small"}
-p3_bar <- race_contra %>% 
-  ggplot()+
-  geom_col(mapping=aes(x= `Race / Ethnicity`, y= avg, fill = `Race / Ethnicity`), position = "dodge") +
-    scale_fill_brewer(palette = "Dark2") +
-   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
-ggplotly_p3_bar <- ggplotly(p3_bar)
-```
 
 
 
@@ -218,12 +210,6 @@ ggplotly_p2box
 These interactive boxplots depict the distribution of contraceptive use rates by year and age group, with the contraceptive types shown side by side. Similar to the average rates shown on the bar graphs, these boxplots confirm that the median LARC contraceptive use rates for younger women are only higher than the rates for older women in 2014, but not the next two years. 
 
 
-### PLot 3
-
-```{r echo=FALSE}
-ggplotly_p3_bar
-```
-This bar graph indicates that women of Black and Hispanic race use contraception at a lower rate than women of other races. This observation should be considered for future research. There could potentially be lack of access, resources, or health education for these racial groups. 
 
 
 
