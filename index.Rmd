@@ -1,5 +1,5 @@
 ---
-title: "PM566 Homework 5"
+title: "Rates of Contraceptive Use For Women of Different Age Groups"
 author: "Megan Tran"
 output: 
     html_document:
@@ -74,7 +74,7 @@ opts_chunk$set(
 
 
 
-The dataset was taken from the California Health and Human Services Agency webiste: https://data.chhs.ca.gov/dataset/contraceptive-care-for-women-use-by-race-ethnicity-contraceptive-type-and-age-group/resource/12a73f54-dcf4-4e38-843c-e988385be69b.
+The dataset used for this research report was downloaded from the California Health and Human Services Agency (CHHS) Open Data Portal: https://data.chhs.ca.gov/dataset/contraceptive-care-for-women-use-by-race-ethnicity-contraceptive-type-and-age-group/resource/12a73f54-dcf4-4e38-843c-e988385be69b.
 The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from eligible women ages 15-44 who are at risk for unintended pregnancy. It reported the rates of women's contraceptive use broken down by year (2014-2016), age group (15-20 vs. 21-44), and race. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), such as birth control implants and IUDs, or most/moderately effective methods of contraceptions (M/M), which include oral birth control pills, patches, rings, injectables, female sterilization, and diaphragms. 
  
  
@@ -90,7 +90,7 @@ The Contraceptive Care - All Women measure (CCW), as part of the Maternal and In
  
 # Introduction to the Project
 
-LARC contraceptives are more effective forms of birth control than M/M methods and are safe for women of all ages to use. LARC methods could prevent more cases of teenage pregnancy for young women at risk and who are sexually active. However, M/M methods are more widely used and may be perceived by the public to be safer since they don't require surgical insertions of long-term devices into the body. Young women with inadequate knowledge about sex education and reproductive health may not have received enough information about the different available contraceptive methods and as a result, be unable to make an informed decision on the contraceptive type that's right for them.
+LARC contraceptives are more effective forms of birth control than M/M methods and are safe for women of all ages to use. LARC methods could prevent more cases of teenage pregnancy for young women at risk and who are sexually active. However, M/M methods are more widely used and may be perceived by the public to be safer since they don't require surgical insertions of long-term devices into the body. Young women with inadequate knowledge about sex education and reproductive health may not have enough information about the different available contraceptive methods and as a result, be unable to make an informed decision on the contraceptive type that's right for them.
 
 The primary research question being explored in this project is if adolescents (ages 15-20) use long-acting reversible methods of contraception (LARC) at a lower rate than older women (ages 21-44) and is that trend consistent throughout the three year period?
 
@@ -160,7 +160,14 @@ p2_box <- contra %>%
 ggplotly_p2box <- ggplotly(p2_box)
 ```
 
-
+```{r plot3, echo=FALSE, class.source="code-r-small"}
+p3_bar <- race_contra %>% 
+  ggplot()+
+  geom_col(mapping=aes(x= `Race / Ethnicity`, y= avg, fill = `Race / Ethnicity`), position = "dodge") +
+    scale_fill_brewer(palette = "Dark2") +
+   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
+ggplotly_p3_bar <- ggplotly(p3_bar)
+```
 
 
 
@@ -178,7 +185,7 @@ ggplotly_p2box <- ggplotly(p2_box)
 
 
 
-## Showcasing My Interactive Visuals {.tabset}
+# Interactive Visuals {.tabset}
 
 ### Plot 1
 
@@ -211,6 +218,13 @@ These interactive boxplots depict the distribution of contraceptive use rates by
 
 
 
+### PLot 3
+
+```{r echo=FALSE}
+ggplotly_p3_bar
+```
+
+This distribution shows the variability in contraceptive rates across the six ethnic groups. This bar graph indicates that women of Black and Hispanic race use contraception at a lower rate than women of other races. This observation should be considered for future research. There could potentially be lack of access, resources, health education for other barriers or these racial groups. Furthermore, the general variability in rates across ethnic groups could suggest that there are more underlying factors that affect women's access to contraception or openness to use it, such as cultural or religious values.
 
 
 
@@ -218,7 +232,8 @@ These interactive boxplots depict the distribution of contraceptive use rates by
 ## {-}
 
 
-
+# Conclusion
+Although statistical analyses should be conducted in order to determine a more accurate conclusion, we can look at the figures and table to reach a preliminary conclusion. In reference to the formulated research question, younger women do indeed use LARC contraceptive methods at a lower rate than older women, but this was not true for all 3 years, 2014-2016. In 2014, younger women actually had higher rates for LARC contraceptive use. More research should be conducted as to why there was a change between 2014 and 2015 and if the trend has held the same past 2016. Introducing LARC contraceptive methods to younger women could reduce unwanted pregnancies and offer alternative, long-term contraception options.
 
 
 

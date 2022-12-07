@@ -1,7 +1,7 @@
 name: "megantran-website"
 output_dir: "."
 navbar:
-  title: "PM566 Homework 5"
+  title: "Contraceptive Rates For Women of Different Age Groups"
   left:
     - text: "Home"
       href: index.html
