@@ -158,11 +158,18 @@ ggplotly_p2box <- ggplotly(p2_box)
 
 ```{r plot3, echo=FALSE, class.source="code-r-small"}
 p3_bar <- race_contra %>% 
-  ggplot()+
-  geom_col(mapping=aes(x= `Race / Ethnicity`, y= `Average Rate`, fill = `Race / Ethnicity`), position = "dodge") +
+  ggplot(mapping=aes(x= `Race / Ethnicity`, y=`Average Rate`, fill = `Race / Ethnicity`, 
+                     text=paste(paste("Race / Ethnicity:", `Race / Ethnicity` , sep=""), 
+                         paste("Average Rate: ", `Average Rate`, sep=""),
+                      sep = "<br>")), 
+         position = "dodge")+
+  geom_col() +
     scale_fill_brewer(palette = "Dark2") +
-   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
-ggplotly_p3_bar <- ggplotly(p3_bar)
+   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") +
+  theme(text=element_text(size = 8))
+
+   
+ggplotly_p3_bar <- ggplotly(p3_bar, tooltip = "text")
 ```
 
 

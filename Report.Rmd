@@ -145,7 +145,8 @@ p3_bar <- race_contra %>%
   ggplot()+
   geom_col(mapping=aes(x= `Race / Ethnicity`, y= `Average Rate`, fill = `Race / Ethnicity`), position = "dodge") +
     scale_fill_brewer(palette = "Dark2") +
-   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
+   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") +
+  theme(text=element_text(size = 8))
 
 p3_bar
 ```
