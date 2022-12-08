@@ -121,13 +121,13 @@ contra$`Rate of Contraceptive Use` <- as.numeric(contra$`Rate of Contraceptive U
 
 #average rate by Contraceptive Type, Age Group and Year
 avg_contra <- contra[ , .(
-    avg_rate = mean (`Rate of Contraceptive Use`)
+    `Average Rate` = mean (`Rate of Contraceptive Use`)
   ), 
   by = .(`Contraceptive Type`, `Age Group`, Year)]
 
 #average rate by Race
 race_contra <- contra[ , .(
-    avg = mean (`Rate of Contraceptive Use`)
+    `Average Rate` = mean (`Rate of Contraceptive Use`)
   ),
   by = `Race / Ethnicity`]
 ```
@@ -137,7 +137,7 @@ race_contra <- contra[ , .(
 ```{r plot1, echo=FALSE, class.source="code-r-small"}
 p1_bar <- avg_contra %>% 
   ggplot()+
-  geom_col(mapping=aes(x= Year, y= avg_rate, fill = `Age Group`), position = "dodge") +
+  geom_col(mapping=aes(x= Year, y= `Average Rate`, fill = `Age Group`), position = "dodge") +
     scale_fill_brewer(palette = "Set1") +
    labs( y = "Rate of Contraceptive Use", title = "Bar Graphs of Contraceptive Use from 2014-2016") +
   facet_wrap( ~ `Contraceptive Type`, nrow=2)
@@ -163,7 +163,7 @@ ggplotly_p2box <- ggplotly(p2_box)
 ```{r plot3, echo=FALSE, class.source="code-r-small"}
 p3_bar <- race_contra %>% 
   ggplot()+
-  geom_col(mapping=aes(x= `Race / Ethnicity`, y= avg, fill = `Race / Ethnicity`), position = "dodge") +
+  geom_col(mapping=aes(x= `Race / Ethnicity`, y= `Average Rate`, fill = `Race / Ethnicity`), position = "dodge") +
     scale_fill_brewer(palette = "Dark2") +
    labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
 ggplotly_p3_bar <- ggplotly(p3_bar)

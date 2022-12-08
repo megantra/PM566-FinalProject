@@ -10,18 +10,28 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r install-libraries, echo=FALSE}
+library(lubridate)
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(dtplyr)
+library(dplyr)
+library(stringr)
+```
 
-#Introduction 
 
-The dataset used for this research report was downloaded from the California Health and Human Services Agency (CHHS) Open Data Portal: https://data.chhs.ca.gov/dataset/contraceptive-care-for-women-use-by-race-ethnicity-contraceptive-type-and-age-group/resource/12a73f54-dcf4-4e38-843c-e988385be69b.
-The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from women ages 15-44 at risk for unintended pregnancy. The female participants were stratified into two age groups, those who are 15-20 and those who are 21-44 years old, and six racial groups. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), which include birth control implants and IUDs, or most/moderately effective methods of contraceptions (M/M), such as oral pills, patches, rings, injectables, female sterilization, or diaphragms. Data was gathered in the California for 3 consecutive years, 2014-2016. Furthermore, "Rate of contraceptive use" in the dataset refers to those who use a type of contraceptive divided by those who are "eligible", defined as those that have ever had sex, are not pregnant or seeking pregnancy, and are fecund.
+# Introduction 
+
+The dataset used for this research report was downloaded from the California Health and Human Services Agency (CHHS) Open Data Portal. The Contraceptive Care - All Women measure (CCW), as part of the Maternal and Infant Health Initiative, Contraceptive Care Quality grant, was compiled data taken from women ages 15-44 at risk for unintended pregnancy. The female participants were stratified into two age groups, those who are 15-20 and those who are 21-44 years old, and six racial groups. Contraceptive type either fell under the category of long-acting reversible methods of contraception (LARC), which include birth control implants and IUDs, or most/moderately effective methods of contraceptions (M/M), such as oral pills, patches, rings, injectables, female sterilization, or diaphragms. Data was gathered in the California for 3 consecutive years, 2014-2016. Furthermore, "Rate of contraceptive use" in the dataset refers to those who use a type of contraceptive divided by those who are "eligible", defined as those that have ever had sex, are not pregnant or seeking pregnancy, and are fecund.
  
 Research shows that LARC contraceptives are more effective forms of birth control than M/M methods and are safe for women of all ages to use. LARC methods could prevent more cases of teenage pregnancy for young women at risk and who are sexually active. However, M/M methods are more widely used and may be perceived by the public to be safer since they don't require surgical insertions of long-term devices into the body. Young women with inadequate knowledge about sex education and reproductive health may not have enough information about the different available contraceptive methods and as a result, be unable to make an informed decision on the contraceptive type that's right for them.
 
 The research question being explored is if younger women (age 15-20) use long-acting reversible methods of contraception (LARC) at a lower rate than older women (age 21-44) and is that trend consistent throughout the three year period?
 
 
-#Methods 
+# Methods 
+
 The role of the California Health and Human Services Agency is to provide policy leadership and direction to the departments and programs it oversees, to reduce duplication and fragmentation and improve coordination among the departments, to ensure programmatic integrity, and to advance the Governor's priorities on health and human services issues.
 
 The Agency coordinates the administration of state and federal programs for public health, health care services, social services, public assistance, health planning and licensing, and rehabilitation. These programs touch the lives of millions of California's most needy and vulnerable residents. The Agency is responsible for balancing the twin imperatives of providing access to essential health and human services for California's most disadvantaged and at-risk residents and managing and controlling costs.
@@ -29,81 +39,105 @@ The data was collected through administrative survey measures. The representativ
 
 
 Reading in the data:
-```{r read-data, cache=TRUE}
-if (!file.exists("ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv")) {
-download.file("https://data.chhs.ca.gov/dataset/c2698502-d276-4e55-9057-8153e39d21b1/resource/12a73f54-dcf4-4e38-843c-e988385be69b/download/ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv", "ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv", method="libcurl", timeout = 60) 
+```{r read-data, echo=FALSE, cache=TRUE}
+if (!file.exists("contraceptive_use.csv")) {
+download.file("https://data.chhs.ca.gov/dataset/c2698502-d276-4e55-9057-8153e39d21b1/resource/12a73f54-dcf4-4e38-843c-e988385be69b/download/ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv", "contraceptive_use.csv", method="libcurl", timeout = 60) 
 }
-contra <- data.table::fread("ofp-ccw-by-race-ethn_contra-type_age-group_14-16.csv") 
+contra <- data.table::fread("contraceptive_use.csv") 
 ```
 
 
 First, the number of missing values were checked. 
-```{r}
+```{r echo=FALSE}
 mean(is.na(contra))
 ```
 There were no missing values in the dataset so there was no need to remove observations or impute data.
 
 
 A regular expression was used in order to remove the "%" symbol from the "Rate of Contraceptive Use" column.
-```{r}
+```{r echo=FALSE}
 contra$`Rate of Contraceptive Use` <- stringr::str_remove_all(contra$`Rate of Contraceptive Use`, "%")
 ```
 
 
 Then the column was changed from a character variable to numeric.
-```{r}
+```{r echo=FALSE}
 contra$`Rate of Contraceptive Use` <- as.numeric(contra$`Rate of Contraceptive Use`)
 ```
 
 
 There's a wide range between the maximum and minimum rates.
-```{r}
+```{r echo=FALSE}
 summary(contra$`Rate of Contraceptive Use`)
 ```
 
 
 The average of the rates of contraceptive use was calculated by contraceptive type, age group, and year. The variable "avg_rate" was created.
+
 ```{r}
 avg_contra <- contra[ , .(
-    avg_rate = mean (`Rate of Contraceptive Use`)
+    `Average Rate` = mean (`Rate of Contraceptive Use`)
   ), 
   by = .(`Contraceptive Type`, `Age Group`, Year)]
 
 avg_contra
 ```
 
-#Preliminary Results 
+
+The average of the rates of contraceptive use was calculated by contraceptive type and age group. The variable "avg" was created.
+```{r echo=FALSE}
+avg_contra2 <- avg_contra[ , .(
+    `Average Rate` = mean (`Average Rate`)
+  ), 
+  by = .(`Age Group`, `Contraceptive Type`)]
+
+avg_contra2
+```
+
+```{r echo=FALSE}
+race_contra <- contra[ , .(
+    `Average Rate` = mean (`Rate of Contraceptive Use`)
+  ),
+  by = `Race / Ethnicity`]
+```
 
 
 
-```{r}
-avg_contra[!is.na(`avg_rate`)] %>% 
+
+# Preliminary Results 
+
+
+
+```{r echo=FALSE}
+avg_contra2 %>% 
   ggplot()+
-  geom_col(mapping=aes(x=`Contraceptive Type`, y= `avg_rate`, fill = `Contraceptive Type`)) +
+  geom_col(mapping=aes(x=`Contraceptive Type`, y= `Average Rate`, fill = `Contraceptive Type`)) +
+  scale_fill_brewer(palette = "Set1") +
    labs(title = "Bar Graphs of Contraceptive Use by Age Group") +
   labs( y = "Rate of Contraceptive Use") +
     facet_wrap( ~`Age Group`)
 ```
-
 These bar graphs show the rates of contraceptive use, LARC or Most/Moderately Effective methods, per age group. The figure shows that older women use LARC methods at a slightly higher rate. Since these bar graphs are so similar, I want to see if the graphs look any different when I split them into years. Perhaps, a different trend will appear.
 
 
 
-```{r}
-avg_contra[!is.na(`avg_rate`)] %>% 
+```{r echo=FALSE}
+avg_contra[!is.na(`Average Rate`)] %>% 
   ggplot()+
-  geom_col(mapping=aes(x=`Contraceptive Type`, y= `avg_rate`, fill = `Contraceptive Type`)) +
-   labs(title = "Bar Graphs of Contraceptive Use by Year and Age Group") +
+  geom_col(mapping=aes(x=`Contraceptive Type`, y= `Average Rate`, fill = `Contraceptive Type`)) +
+    scale_fill_brewer(palette = "Set1") +
+   labs( y = "Rate of Contraceptive Use", title = "Bar Graphs of Contraceptive Use by Year and Age Group") +
    facet_wrap(Year ~ `Age Group`, nrow=3)
 ```
 These bar graphs split the data by year. Interestingly enough, older women used LARC methods at a lower rate than younger women in 2014. In the next two years, you can observe that the rates for 15-20 year olds decreased. These graphs give us a better idea of how the rate distribution changes for the two age groups over the years. They suggest that time might be confounder in the association between contraceptive type and age group since the trend is different for different years. 
 
 
 
-```{r}
+```{r echo=FALSE}
 contra[!is.na(`Rate of Contraceptive Use`)] %>% 
   ggplot()+
   geom_boxplot(mapping=aes(x=`Contraceptive Type`, y=`Rate of Contraceptive Use`, fill = `Contraceptive Type`)) +
+    scale_fill_brewer(palette = "Set1") +
    labs(title = "Boxplots of Contraceptive Use by Year and Age Group") + 
     facet_wrap(Year ~ `Age Group`, nrow=3)
 ```
@@ -112,30 +146,49 @@ Again, the boxplots depict the distribution of contraceptive rates by year, age 
 
 
 
-```{r}
+```{r echo=FALSE}
 database <- data.frame(
     Year = avg_contra$Year, 
    Contraceptive_Type = avg_contra$`Contraceptive Type`,
     Age_Group = avg_contra$`Age Group`,
-   Average_Rate_of_Contraceptive_Use = avg_contra$avg_rate
+   Average_Rate_of_Contraceptive_Use = avg_contra$`Average Rate`
  )
  knitr::kable(database, caption = "Contraceptive Use of Women 2014-2016")
 ```
 
-```{r}
-avg_contra[!is.na(`avg_rate`)] %>% 
+```{r echo=FALSE}
+avg_contra[!is.na(`Average Rate`)] %>% 
   ggplot()+
-geom_col(mapping=aes(x=Year, y= avg_rate, fill ="Age Group"), position = "dodge") +
+geom_col(mapping=aes(x=Year, y= `Average Rate`, fill = "Year"), position = "dodge") +
+      scale_fill_brewer(palette = "Dark2") +
+    labs(title = "Contraceptive Use by Year, 2014-2016") + 
+    labs( y = "Rate of Contraceptive Use") +
 facet_wrap( ~ "Contraceptive Type", nrow=2)
 ```
-```{r}
-avg_contra[!is.na(`avg_rate`)] %>% 
+
+
+
+
+
+```{r echo=FALSE}
+avg_contra[!is.na(`Average Rate`)] %>% 
   ggplot()+
-  geom_col(mapping=aes(x= Year, y= avg_rate, fill = `Age Group`), position = "dodge") +
+  geom_col(mapping=aes(x= Year, y= `Average Rate`, fill = `Age Group`), position = "dodge") +
+  scale_fill_brewer(palette = "Set1") +
+labs( y = "Rate of Contraceptive Use", title = "Bar Graphs of Contraceptive Use from 2014-2016") +
 facet_wrap( ~ `Contraceptive Type`, nrow=2)
 ```
 
-#Conclusion 
+```{r plot3, echo=FALSE}
+p3_bar <- race_contra %>% 
+  ggplot()+
+  geom_col(mapping=aes(x= `Race / Ethnicity`, y= `Average Rate`, fill = `Race / Ethnicity`), position = "dodge") +
+    scale_fill_brewer(palette = "Dark2") +
+   labs( y = " Average Rate of Contraceptive Use", title = "Bar Graph of Rate of Contraceptive Use by Race") 
+
+```
+
+# Conclusion 
 
 Although statistical analyses should be conducted in order to determine a more accurate conclusion, we can look at the figures and table to reach a preliminary conclusion. In reference to the formulated research question, younger women do indeed use LARC contraceptive methods at a lower rate than older women, but this was not true for all 3 years, 2014-2016. In 2014, younger women actually had higher rates for LARC contraceptive use. More research should be conducted as to why there was a change between 2014 and 2015 and if the trend has held the same past 2016. Introducing LARC contraceptive methods to younger women could reduce unwanted pregnancies and offer alternative, long-term contraception options.
 It's important to note the limitations of the data. The measure doesn't account for several aspects of women’s risk of unintended pregnancy including sexual experience, pregnancy intention,sterilization or LARC insertion in a year preceding the measurement year, and infertility for non-contraceptive reasons. These factors surely affect the rates reported in the data and future research should factor in these reasons.
@@ -145,25 +198,7 @@ It's important to note the limitations of the data. The measure doesn't account 
 
 
 
-# the graph that I fixed from midterm
-```{r}
-avg_contra2 <- avg_contra[ , .(
-    avg = mean (avg_rate)
-  ), 
-  by = .(`Age Group`, `Contraceptive Type`)]
 
-avg_contra2
-```
-
-
-```{r}
-avg_contra2 %>% 
-  ggplot()+
-  geom_col(mapping=aes(x=`Contraceptive Type`, y= avg, fill = `Contraceptive Type`)) +
-   labs(title = "Bar Graphs of Contraceptive Use by Age Group") +
-  labs( y = "Rate of Contraceptive Use") +
-    facet_wrap( ~`Age Group`)
-```
 
 
 
