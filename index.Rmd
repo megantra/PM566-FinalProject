@@ -1,5 +1,5 @@
 ---
-title: "Rates of Contraceptive Use For Women of Different Age Groups"
+title: "Contraceptive Use For Women of Different Age Groups"
 author: "Megan Tran"
 output: 
     html_document:
@@ -19,12 +19,7 @@ output:
 
 
 
-
-
- Link to the pdf report here:
-
-
-
+Link to my pdf: [report](https://github.com/megantra/PM566-FinalProject/blob/main/Report.pdf) [[download]](https://github.com/megantra/PM566-FinalProject/raw/main/Report.pdf)
 
 
 <br>
@@ -47,6 +42,7 @@ library(dplyr)
 library(stringr)
 library(knitr)
 library(DT)
+library(plotly)
 
 # Initialize code chunk options
 opts_chunk$set(
@@ -185,7 +181,7 @@ ggplotly_p3_bar <- ggplotly(p3_bar)
 
 
 
-# Interactive Visuals {.tabset}
+## Interactive Visuals {.tabset}
 
 ### Plot 1
 
