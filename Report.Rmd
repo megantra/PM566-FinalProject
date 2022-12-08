@@ -6,11 +6,8 @@ output:
    html_document: FALSE
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r echo=FALSE}
+```{r message=FALSE, include=FALSE, warning=FALSE}
 library(lubridate)
 library(tidyverse)
 library(data.table)
@@ -18,6 +15,20 @@ library(ggplot2)
 library(dtplyr)
 library(dplyr)
 library(stringr)
+library(DT)
+library(knitr)
+
+# Initialize code chunk options
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = TRUE,
+  cache = FALSE,
+  fig.width = 7, 
+  fig.align = 'center',
+  fig.asp = 0.618,
+  out.width = "700px")
 ```
 
 
@@ -45,41 +56,31 @@ download.file("https://data.chhs.ca.gov/dataset/c2698502-d276-4e55-9057-8153e39d
 contra <- data.table::fread("contraceptive_use.csv") 
 ```
 
-```{r echo=FALSE}
-mean(is.na(contra))
-```
 
-```{r echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 contra$`Rate of Contraceptive Use` <- stringr::str_remove_all(contra$`Rate of Contraceptive Use`, "%")
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 contra$`Rate of Contraceptive Use` <- as.numeric(contra$`Rate of Contraceptive Use`)
 ```
 
-```{r echo=FALSE}
-summary(contra$`Rate of Contraceptive Use`)
-```
 
-```{r echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 avg_contra <- contra[ , .(
     `Average Rate` = mean (`Rate of Contraceptive Use`)
   ), 
   by = .(`Contraceptive Type`, `Age Group`, Year)]
-
-avg_contra
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 avg_contra2 <- avg_contra[ , .(
     `Average Rate` = mean (`Average Rate`)
   ), 
   by = .(`Age Group`, `Contraceptive Type`)]
-
-avg_contra2
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 race_contra <- contra[ , .(
     `Average Rate` = mean (`Rate of Contraceptive Use`)
   ),
@@ -125,7 +126,7 @@ avg_contra[!is.na(`Average Rate`)] %>%
 labs( y = "Rate of Contraceptive Use", title = "Bar Graphs of Contraceptive Use from 2014-2016") +
 facet_wrap( ~ `Contraceptive Type`, nrow=2)
 ```
-These bar graphs stratify the avgerage rates of contraceptive use by year. Interestingly enough, older women used LARC methods at a lower rate than younger women in 2014 (see website for numeric value of bar). In the next two years, the rates for 15-20 year olds decreased and were lower than the rates for 21-44 year olds. These graphs are more effective in showing how the rate distribution changes for the two age groups over the years. They suggest that time might be confounder in the association between contraceptive type and age group since the pattern changes throughout the 3 year period.
+These bar graphs stratify the average rates of contraceptive use by year. Most/Moderately Effective methods are used by both age groups almost 4 times more frequently than LARC methods. Interestingly enough, older women used LARC methods at a lower rate than younger women in 2014 (see website for numeric value of bar). In the next two years, the rates for 15-20 year olds decreased and were lower than the rates for 21-44 year olds. These graphs are more effective in showing how the rate distribution changes for the two age groups over the years. They suggest that time might be confounder in the association between contraceptive type and age group since the pattern changes throughout the 3 year period.
 
 
 ```{r echo=FALSE}
